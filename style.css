@@ -1,0 +1,1215 @@
+/* ==========================================================================
+   CSS DESIGN SYSTEM & VARIÁVEIS
+   ========================================================================== */
+:root {
+    /* Cores do Tema Claro (Refined Slate & Premium Navy) */
+    --bg-app: #f1f5f9;
+    --bg-sidebar: #ffffff;
+    --bg-input: #f8fafc;
+    --border-color: #cbd5e1;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --accent: #1e3a8a; /* Azul Naval Ventura */
+    --accent-hover: #1e40af;
+    --accent-light: #e0f2fe;
+    --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 16px -6px rgba(15, 23, 42, 0.04);
+    --shadow-lg: 0 25px 50px -12px rgba(15, 23, 42, 0.15);
+    
+    /* Área de Preview A4 */
+    --bg-preview-area: #cbd5e1;
+    
+    /* Cores de Alerta */
+    --success: #059669;
+    --success-light: #ecfdf5;
+    
+    /* Configurações Globais */
+    --radius: 16px;
+    --radius-sm: 8px;
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+    /* Cores do Tema Escuro (Modern Deep Space Blue) */
+    --bg-app: #090e1a;
+    --bg-sidebar: #0f1626;
+    --bg-input: #182032;
+    --border-color: #26334f;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --accent: #38bdf8; /* Azul Piscina / Ciano Moderno */
+    --accent-hover: #0ea5e9;
+    --accent-light: #0f2642;
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 16px -6px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 30px 60px -15px rgba(0, 0, 0, 0.7);
+    
+    --bg-preview-area: #1e293b;
+}
+
+/* Reset de Margens e Estilo Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    line-height: 1.5;
+    overflow: hidden;
+    height: 100vh;
+    transition: var(--transition);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 20px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* ==========================================================================
+   LAYOUT PRINCIPAL
+   ========================================================================== */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Painel de Controle (Esquerda) */
+.control-panel {
+    width: 440px;
+    min-width: 440px;
+    background-color: var(--bg-sidebar);
+    border-right: 1.5px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    box-shadow: var(--shadow);
+    z-index: 10;
+    transition: var(--transition);
+}
+
+.panel-header {
+    padding: 1.5rem;
+    border-bottom: 1.5px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.sidebar-logo {
+    max-height: 52px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.05));
+    transition: var(--transition);
+}
+
+[data-theme="dark"] .sidebar-logo {
+    filter: brightness(0) invert(1) drop-shadow(0 2px 6px rgba(255, 255, 255, 0.1));
+}
+
+/* Seletor de Tipo de Documento */
+.doc-type-selector-wrapper {
+    display: flex;
+    padding: 0.75rem 1.5rem;
+    gap: 0.5rem;
+    background-color: var(--bg-sidebar);
+    border-bottom: 1.5px solid var(--border-color);
+}
+
+.btn-type-tab {
+    flex: 1;
+    padding: 0.65rem;
+    border-radius: 30px;
+    border: 1.5px solid var(--border-color);
+    background-color: var(--bg-input);
+    color: var(--text-secondary);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: var(--transition);
+}
+
+.btn-type-tab:hover {
+    color: var(--text-primary);
+    border-color: var(--text-secondary);
+    background-color: var(--bg-sidebar);
+}
+
+.btn-type-tab.active {
+    background-color: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.25);
+}
+
+/* Botão de Tema */
+.btn-icon {
+    background: var(--bg-input);
+    border: 1.5px solid var(--border-color);
+    color: var(--text-primary);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.btn-icon:hover {
+    background-color: var(--border-color);
+    transform: rotate(15deg);
+}
+
+/* Formulário de Rolagem */
+.form-scrollable {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.form-section {
+    background-color: var(--bg-sidebar);
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    border: 1.5px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+}
+
+.form-section:hover {
+    border-color: var(--accent);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.03);
+}
+
+.section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 2.5px solid var(--border-color);
+    padding-bottom: 0.65rem;
+    margin-bottom: 0.25rem;
+}
+
+.step-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background-color: var(--accent);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+}
+
+.section-title i {
+    color: var(--accent);
+}
+
+/* Agrupamento de Inputs */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
+    margin-bottom: 0.15rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 0.95rem;
+    border-radius: 8px;
+    border: 1.5px solid var(--border-color);
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--accent);
+    background-color: var(--bg-sidebar);
+    box-shadow: 0 0 0 4px var(--accent-light);
+}
+
+/* Seletor de Combustível Customizado */
+.fuel-selector-wrapper {
+    margin-top: 0.4rem;
+}
+
+.fuel-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--border-color);
+    outline: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.fuel-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 3.5px solid var(--bg-sidebar);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.15s, background-color 0.15s;
+}
+
+.fuel-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    background: var(--accent-hover);
+}
+
+.fuel-ticks {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.35rem 0.1rem 0;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 700;
+}
+
+/* Checklist de Acessórios */
+.accessories-checklist {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+/* Custom Checkboxes */
+.check-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-transform: none;
+    letter-spacing: normal;
+    user-select: none;
+    padding: 0.45rem 0.65rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    transition: var(--transition);
+}
+
+.check-item:hover {
+    background-color: var(--bg-input);
+    border-color: var(--border-color);
+}
+
+.check-item input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.custom-checkbox {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-color: var(--bg-sidebar);
+    border: 1.5px solid var(--border-color);
+    border-radius: 5px;
+    position: relative;
+    transition: var(--transition);
+}
+
+.check-item:hover .custom-checkbox {
+    border-color: var(--text-secondary);
+}
+
+.check-item input[type="checkbox"]:checked ~ .custom-checkbox {
+    background-color: var(--accent);
+    border-color: var(--accent);
+}
+
+.custom-checkbox::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg);
+}
+
+.check-item input[type="checkbox"]:checked ~ .custom-checkbox::after {
+    display: block;
+}
+
+/* Canvas de Assinatura */
+.signature-canvas-container {
+    position: relative;
+    border: 1.5px dashed var(--border-color);
+    border-radius: var(--radius);
+    background-color: #ffffff;
+    overflow: hidden;
+    height: 120px;
+    transition: var(--transition);
+}
+
+.signature-canvas-container:hover {
+    border-color: var(--accent);
+}
+
+#signature-pad {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+}
+
+.btn-clear-sig-action {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background-color: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: var(--transition);
+}
+
+.btn-clear-sig-action:hover {
+    background-color: #e2e8f0;
+    color: #0f172a;
+    transform: translateY(-1px);
+}
+
+.helper-text {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+
+/* Rodapé do Painel (Ações) */
+.panel-footer {
+    padding: 1.5rem;
+    border-top: 1.5px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background-color: var(--bg-sidebar);
+}
+
+.btn {
+    width: 100%;
+    padding: 0.9rem;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.25);
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.35);
+}
+
+.btn-secondary {
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    border: 1.5px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--border-color);
+    transform: translateY(-1px);
+}
+
+/* Seção de Histórico */
+.history-section {
+    padding: 1.25rem 1.5rem 1.5rem;
+    border-top: 1.5px solid var(--border-color);
+    background-color: var(--bg-input);
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.history-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.history-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.history-empty {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 0.75rem 0;
+    font-style: italic;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-sidebar);
+    padding: 0.65rem 0.85rem;
+    border-radius: 8px;
+    border: 1.5px solid var(--border-color);
+    font-size: 0.78rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: var(--transition);
+}
+
+.history-item:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px) translateX(2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.history-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.history-info strong {
+    color: var(--text-primary);
+}
+
+.history-info span {
+    color: var(--text-secondary);
+    font-size: 0.72rem;
+}
+
+.history-actions {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.btn-history-load, .btn-history-delete {
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.btn-history-load {
+    color: var(--accent);
+}
+
+.btn-history-load:hover {
+    background-color: var(--accent-light);
+}
+
+.btn-history-delete {
+    color: #ef4444;
+}
+
+.btn-history-delete:hover {
+    background-color: #fee2e2;
+}
+
+/* ==========================================================================
+   ÁREA DE PREVIEW (Direita)
+   ========================================================================== */
+.preview-area {
+    flex: 1;
+    background: radial-gradient(circle at center, var(--bg-preview-area) 0%, rgba(15, 23, 42, 0.05) 100%);
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    overflow-y: auto;
+    transition: var(--transition);
+}
+
+[data-theme="dark"] .preview-area {
+    background: radial-gradient(circle at center, #1b263b 0%, #090e1a 100%);
+}
+
+.preview-toolbar {
+    width: 210mm;
+    background-color: var(--bg-sidebar);
+    border: 1.5px solid var(--border-color);
+    padding: 0.85rem 1.5rem;
+    border-radius: var(--radius);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    box-shadow: var(--shadow);
+    color: var(--text-primary);
+    transition: var(--transition);
+}
+
+.preview-tip {
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+/* Container de Enquadramento A4 */
+.a4-page-container {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* ==========================================================================
+   ESTILO DA PÁGINA A4 EM TELA (Simulador de Papel)
+   ========================================================================== */
+.a4-page {
+    width: 210mm;
+    min-height: 297mm;
+    height: 297mm; /* Trava altura para 1 página perfeita */
+    background-color: #ffffff;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 15mm 18mm 12mm; /* Margens internas padrão A4 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: 'Inter', sans-serif;
+    color: #0f172a;
+    box-sizing: border-box;
+    position: relative;
+    user-select: none;
+}
+
+/* Cabeçalho do Documento */
+.doc-header {
+    border-bottom: 2px solid #0f172a;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.doc-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.doc-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-doc-icon {
+    font-size: 2.2rem;
+    color: #0f172a;
+}
+
+.logo-doc-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-doc-text .logo-main {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    line-height: 1.1;
+    color: #0f172a;
+}
+
+.logo-doc-text .logo-sub {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #64748b;
+}
+
+.doc-meta {
+    text-align: right;
+    font-size: 0.75rem;
+    color: #0f172a;
+}
+
+.doc-id {
+    font-size: 0.85rem;
+}
+
+.doc-date {
+    margin-top: 2px;
+    color: #64748b;
+}
+
+.doc-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.5px;
+    margin-top: 0.25rem;
+    color: #0f172a;
+}
+
+.doc-subtitle {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-align: center;
+    color: #64748b;
+    letter-spacing: 1px;
+    margin-top: 2px;
+}
+
+/* Blocos de Seção do Documento */
+.doc-section-block {
+    margin-bottom: 0.85rem;
+}
+
+.doc-section-header {
+    background-color: #f1f5f9;
+    border-left: 4px solid #0f172a;
+    padding: 4px 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+/* Grid de Dados */
+.doc-grid {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid #cbd5e1;
+    border-left: 1px solid #cbd5e1;
+    margin-bottom: -1px; /* Evita bordas duplas */
+}
+
+.doc-grid-2 {
+    grid-template-columns: 1fr 1fr;
+}
+
+.doc-grid-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.doc-cell {
+    border-right: 1px solid #cbd5e1;
+    border-bottom: 1px solid #cbd5e1;
+    padding: 6px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.col-span-2 {
+    grid-column: span 2;
+}
+
+.doc-label {
+    font-size: 0.55rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.doc-value {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #0f172a;
+    word-break: break-word;
+    min-height: 1.1rem;
+}
+
+/* Indicador de Combustível no PDF */
+.doc-fuel-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 2px;
+}
+
+.doc-fuel-bar {
+    width: 70px;
+    height: 8px;
+    background-color: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #cbd5e1;
+}
+
+.doc-fuel-bar div {
+    height: 100%;
+    background-color: #0f172a;
+    transition: width 0.3s;
+}
+
+/* Checklist Acessórios no PDF */
+.doc-checklist-box {
+    border-left: 1px solid #cbd5e1;
+    border-right: 1px solid #cbd5e1;
+    border-bottom: 1px solid #cbd5e1;
+    padding: 6px 10px;
+    background-color: #fafafa;
+}
+
+.doc-checklist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 4px;
+}
+
+.doc-check-tag {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.doc-check-tag.checked {
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.doc-check-tag.checked i {
+    color: #0f172a;
+}
+
+/* Termo de Compromisso */
+.doc-terms {
+    font-size: 0.62rem;
+    text-align: justify;
+    line-height: 1.4;
+    color: #334155;
+    border: 1px dashed #cbd5e1;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background-color: #fafafa;
+}
+
+/* Assinaturas */
+.doc-signatures-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    padding-top: 0.5rem;
+}
+
+.doc-sig-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    height: 75px;
+    justify-content: flex-end;
+}
+
+.doc-sig-pad-image-wrapper {
+    position: absolute;
+    top: -30px;
+    height: 70px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#doc-out-signature-img {
+    max-height: 50px;
+    max-width: 180px;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+}
+
+.doc-sig-line {
+    width: 100%;
+    border-bottom: 1px solid #0f172a;
+    margin-bottom: 4px;
+}
+
+.doc-sig-name {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.doc-sig-sub {
+    font-size: 0.55rem;
+    color: #64748b;
+    margin-top: 1px;
+}
+
+/* Estilo da Imagem da Logo no Documento (Tamanho Ajustado para compensar margens da imagem) */
+.logo-doc-img {
+    height: 130px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Texto de Rodapé Oculto na Web */
+.doc-footer-print-only {
+    display: none;
+    font-size: 0.55rem;
+    text-align: center;
+    color: #94a3b8;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 4px;
+}
+
+/* ==========================================================================
+   CSS DE IMPRESSÃO (CRÍTICO)
+   ========================================================================== */
+@media print {
+    /* Ocultar cabeçalhos e rodapés automáticos do navegador com margem 0 */
+    @page {
+        size: A4 portrait;
+        margin: 0;
+    }
+    
+    /* Travar o HTML e o Corpo a exatamente 100% da altura da viewport para impedir segunda página */
+    html, body {
+        width: 100% !important;
+        height: 100vh !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .app-container {
+        display: block !important;
+        width: 100% !important;
+        height: 100vh !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Ocultar todos os painéis e ferramentas de visualização da web */
+    .no-print, 
+    .control-panel, 
+    .preview-toolbar,
+    .btn-clear-sig-action {
+        display: none !important;
+    }
+    
+    /* Reposicionar a área de pré-visualização para preenchimento total travado */
+    .preview-area {
+        padding: 0 !important;
+        margin: 0 !important;
+        background: none !important;
+        display: block !important;
+        overflow: hidden !important;
+        height: 100vh !important;
+        width: 100% !important;
+    }
+    
+    .a4-page-container {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        height: 100vh !important;
+        overflow: hidden !important;
+    }
+
+    /* Formatar a folha A4 travando a altura total a 100vh (Página Única Exata) */
+    .a4-page {
+        width: 100% !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        padding: 12mm 15mm 10mm !important; /* Margens internas simulando papel */
+        box-shadow: none !important;
+        border: none !important;
+        background: #ffffff !important;
+        margin: 0 !important;
+        page-break-inside: avoid !important;
+        page-break-after: avoid !important;
+        page-break-before: avoid !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        overflow: hidden !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    /* Otimização de tamanhos para garantir enquadramento completo na Página 1 */
+    .logo-doc-img {
+        height: 120px !important; /* Aumentado para visualização impressa maior */
+    }
+
+    .doc-title {
+        font-size: 1.35rem !important;
+        margin-top: 0.15rem !important;
+    }
+
+    .doc-subtitle {
+        font-size: 0.7rem !important;
+    }
+
+    .doc-section-header {
+        font-size: 0.8rem !important;
+        padding: 4px 8px !important;
+        margin-bottom: 0.35rem !important;
+        background-color: #f1f5f9 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .doc-grid {
+        margin-bottom: -1px !important;
+    }
+
+    .doc-cell {
+        padding: 5px 8px !important; /* Redução de padding para economizar altura */
+    }
+
+    .doc-label {
+        font-size: 0.58rem !important;
+    }
+
+    .doc-value {
+        font-size: 0.82rem !important;
+    }
+
+    .doc-fuel-bar {
+        background-color: #e2e8f0 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .doc-fuel-bar div {
+        background-color: #0f172a !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .doc-checklist-box {
+        background-color: #fafafa !important;
+        padding: 5px 8px !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .doc-check-tag {
+        font-size: 0.75rem !important;
+    }
+
+    .doc-terms {
+        font-size: 0.65rem !important; /* Redução sutil para acomodar o texto na página 1 */
+        line-height: 1.3 !important;
+        padding: 6px 10px !important;
+        background-color: #fafafa !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .doc-signatures-section {
+        margin-top: 0.6rem !important; /* Economia de espaço vertical */
+        gap: 1.5rem !important;
+    }
+
+    .doc-sig-name {
+        font-size: 0.78rem !important;
+    }
+
+    .doc-sig-sub {
+        font-size: 0.6rem !important;
+    }
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE (Telas menores)
+   ========================================================================== */
+@media (max-width: 1250px) {
+    /* Em telas médias, escalamos um pouco a visualização A4 para caber na tela */
+    .preview-area {
+        padding: 1rem;
+    }
+    
+    .preview-toolbar {
+        width: 100%;
+        max-width: 210mm;
+    }
+    
+    .a4-page-container {
+        transform: scale(0.9);
+        transform-origin: top center;
+        height: calc(297mm * 0.9);
+    }
+}
+
+@media (max-width: 1024px) {
+    /* Layout de coluna única em tablets/celulares com alternador */
+    .app-container {
+        flex-direction: column;
+        overflow-y: auto;
+        height: auto;
+    }
+    
+    body {
+        overflow: auto;
+        height: auto;
+    }
+    
+    .control-panel {
+        width: 100%;
+        min-width: 100%;
+        height: auto;
+        box-shadow: none;
+    }
+    
+    .form-scrollable {
+        max-height: none;
+        overflow-y: visible;
+    }
+    
+    .preview-area {
+        width: 100%;
+        overflow-x: hidden;
+        background-color: var(--bg-app);
+    }
+    
+    .a4-page-container {
+        transform: scale(0.75);
+        height: calc(297mm * 0.75);
+    }
+}
+
+@media (max-width: 640px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .accessories-checklist {
+        grid-template-columns: 1fr;
+    }
+    
+    .a4-page-container {
+        transform: scale(0.45);
+        height: calc(297mm * 0.45);
+        margin-top: -50px;
+        margin-bottom: -50px;
+    }
+    
+    .doc-signatures-section {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: stretch;
+    }
+}

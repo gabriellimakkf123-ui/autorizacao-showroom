@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emissor de Autorização de Saída - Ventura Experience</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar - Form & Controls -->
+        <aside class="control-panel no-print">
+            <header class="panel-header">
+                <div class="logo-area">
+                    <img src="logo.png" alt="Ventura Experience Logo" class="sidebar-logo">
+                </div>
+                <button id="btn-theme-toggle" class="btn-icon" title="Alternar tema Claro/Escuro" aria-label="Alternar tema">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </header>
+
+            <div class="doc-type-selector-wrapper no-print">
+                <button type="button" class="btn-type-tab active" id="tab-saida" data-type="saida">
+                    <i class="fa-solid fa-right-from-bracket"></i> Saída
+                </button>
+                <button type="button" class="btn-type-tab" id="tab-entrada" data-type="entrada">
+                    <i class="fa-solid fa-right-to-bracket"></i> Entrada
+                </button>
+            </div>
+
+            <form id="form-autorizacao" class="form-scrollable">
+                <!-- SEÇÃO 1: VEÍCULO -->
+                <section class="form-section">
+                    <h2 class="section-title"><span class="step-badge">1</span> <i class="fa-solid fa-ship"></i> Detalhes do Veículo</h2>
+                    
+                    <div class="form-group">
+                        <label for="input-tipo-veiculo">Tipo de Veículo</label>
+                        <select id="input-tipo-veiculo" name="tipoVeiculo" class="form-control">
+                            <option value="barco" selected>Barco / Lancha</option>
+                            <option value="quadriciclo">Quadriciclo</option>
+                            <option value="jetski">Moto Aquática (Jetski)</option>
+                            <option value="carro">Carro / Utilitário</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="input-modelo">Modelo / Marca</label>
+                            <input type="text" id="input-modelo" name="modelo" class="form-control" placeholder="Ex: Focker 242 GTC" required>
+                        </div>
+                        <div class="form-group">
+                            <label id="lbl-identificacao" for="input-identificacao">Nº Inscrição / Registro</label>
+                            <input type="text" id="input-identificacao" name="identificacao" class="form-control" placeholder="Ex: 382M2021004" required>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label id="lbl-uso" for="input-uso">Horímetro Atual</label>
+                            <input type="number" id="input-uso" name="uso" class="form-control" placeholder="Ex: 124" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="input-combustivel">Nível de Combustível</label>
+                            <div class="fuel-selector-wrapper">
+                                <input type="range" id="input-combustivel" name="combustivel" min="0" max="100" step="25" value="50" class="fuel-slider">
+                                <div class="fuel-ticks">
+                                    <span>E</span>
+                                    <span>1/4</span>
+                                    <span>1/2</span>
+                                    <span>3/4</span>
+                                    <span>F</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="input-estado">Estado Geral</label>
+                            <select id="input-estado" name="estado" class="form-control">
+                                <option value="Excelente" selected>Excelente</option>
+                                <option value="Bom">Bom</option>
+                                <option value="Regular">Regular (Avarias leves)</option>
+                                <option value="Ruim">Necessita Reparos</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-avarias">Observações de Avarias</label>
+                            <input type="text" id="input-avarias" name="avarias" class="form-control" placeholder="Ex: Risco no casco lado esquerdo">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Acessórios / Itens Inclusos</label>
+                        <div class="accessories-checklist">
+                            <label class="check-item">
+                                <input type="checkbox" name="acessorio" value="chave" checked>
+                                <span class="custom-checkbox"></span>
+                                <span>Chave de Partida</span>
+                            </label>
+                            <label class="check-item" id="chk-colete-wrapper">
+                                <input type="checkbox" name="acessorio" value="colete" id="chk-colete" checked>
+                                <span class="custom-checkbox"></span>
+                                <span id="lbl-colete">Coletes Salva-vidas</span>
+                            </label>
+                            <label class="check-item">
+                                <input type="checkbox" name="acessorio" value="nota_fiscal" checked>
+                                <span class="custom-checkbox"></span>
+                                <span>Nota Fiscal com Termo de Garantia</span>
+                            </label>
+                            <label class="check-item">
+                                <input type="checkbox" name="acessorio" value="ferramentas" checked>
+                                <span class="custom-checkbox"></span>
+                                <span>Kit de Ferramentas</span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SEÇÃO 2: RESPONSÁVEL -->
+                <section class="form-section">
+                    <h2 class="section-title"><span class="step-badge">2</span> <i class="fa-solid fa-user-tie"></i> Dados do Responsável</h2>
+                    <div class="form-group">
+                        <label for="input-condutor-nome">Nome Completo do Responsável</label>
+                        <input type="text" id="input-condutor-nome" name="condutorNome" class="form-control" placeholder="Ex: Carlos Silva de Souza" required>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="input-condutor-doc">Documento (CPF / RG)</label>
+                            <input type="text" id="input-condutor-doc" name="condutorDoc" class="form-control" placeholder="Ex: 000.000.000-00" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-condutor-tel">Telefone / Celular</label>
+                            <input type="tel" id="input-condutor-tel" name="condutorTel" class="form-control" placeholder="Ex: (11) 99999-9999" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-condutor-vinculo">Cargo</label>
+                        <input type="text" id="input-condutor-vinculo" name="condutorVinculo" class="form-control" placeholder="Ex: Cliente, Marinheiro, Diretor" required>
+                    </div>
+                </section>
+
+                <!-- SEÇÃO 3: DETALHES DA SAÍDA -->
+                <section class="form-section">
+                    <h2 class="section-title"><span class="step-badge">3</span> <i class="fa-solid fa-route"></i> <span id="form-sec-3-title">Planejamento de Saída</span></h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="input-motivo" id="lbl-form-motivo">Motivo da Saída</label>
+                            <select id="input-motivo" name="motivo" class="form-control">
+                                <option value="Recall / Manutenção">Manutenção / Oficina</option>
+                                <option value="Demonstração / Test Drive" selected>Test Drive / Demonstração</option>
+                                <option value="Uso Interno">Uso da Diretoria / Interno</option>
+                                <option value="Evento / Showroom Externo">Evento / Feira</option>
+                                <option value="Entrega Técnica">Entrega ao Cliente</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-destino" id="lbl-form-destino">Destino Previsto</label>
+                            <input type="text" id="input-destino" name="destino" class="form-control" placeholder="Ex: Represa Guarapiranga" required>
+                        </div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="input-data-saida" id="lbl-form-data-saida">Data/Hora de Saída</label>
+                            <input type="datetime-local" id="input-data-saida" name="dataSaida" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-data-retorno" id="lbl-form-data-retorno">Previsão de Retorno</label>
+                            <input type="datetime-local" id="input-data-retorno" name="dataRetorno" class="form-control" required>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SEÇÃO 4: AUTORIZAÇÃO & ASSINATURA -->
+                <section class="form-section">
+                    <h2 class="section-title"><span class="step-badge">4</span> <i class="fa-solid fa-signature"></i> Autorização Interna</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="input-autorizador">Gerente / Autorizador</label>
+                            <input type="text" id="input-autorizador" name="autorizador" class="form-control" placeholder="Ex: Roberto (Gerente)" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-terceiro-nome">Outro Assinante (Nome)</label>
+                            <input type="text" id="input-terceiro-nome" name="terceiroNome" class="form-control" placeholder="Ex: Mariana Costa">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-terceiro-cargo">Outro Assinante (Cargo / Função)</label>
+                        <input type="text" id="input-terceiro-cargo" name="terceiroCargo" class="form-control" placeholder="Ex: Testemunha, Consultor, Entregador">
+                    </div>
+                    <div class="form-group">
+                        <label>Assinatura do Gerente (Digital na tela)</label>
+                        <div class="signature-canvas-container">
+                            <canvas id="signature-pad" width="360" height="120"></canvas>
+                            <button type="button" id="btn-clear-sig" class="btn-clear-sig-action" title="Limpar assinatura">
+                                <i class="fa-solid fa-eraser"></i> Limpar
+                            </button>
+                        </div>
+                        <p class="helper-text">Assine acima usando o mouse ou tela sensível ao toque. Se preferir assinar manualmente no papel, deixe em branco.</p>
+                    </div>
+                </section>
+            </form>
+
+            <!-- Ações Principais -->
+            <footer class="panel-footer">
+                <button type="button" id="btn-print" class="btn btn-primary">
+                    <i class="fa-solid fa-print"></i> Gerar e Imprimir Documento
+                </button>
+                <button type="button" id="btn-reset" class="btn btn-secondary">
+                    <i class="fa-solid fa-rotate-left"></i> Limpar Tudo
+                </button>
+            </footer>
+
+            <!-- Histórico -->
+            <section class="history-section">
+                <h3 class="history-title"><i class="fa-solid fa-history"></i> Autorizações Recentes</h3>
+                <ul id="history-list" class="history-list">
+                    <li class="history-empty">Nenhum registro emitido nesta sessão.</li>
+                </ul>
+            </section>
+        </aside>
+
+        <!-- Preview Area -->
+        <main class="preview-area">
+            <div class="preview-toolbar no-print">
+                <span><i class="fa-regular fa-file-pdf"></i> Visualização Realista da Folha A4</span>
+                <span class="preview-tip">O documento abaixo será formatado exatamente assim na impressora.</span>
+            </div>
+
+            <!-- Page container simulating A4 -->
+            <div class="a4-page-container">
+                <article class="a4-page" id="a4-document">
+                    <!-- A4 Header -->
+                    <header class="doc-header">
+                        <div class="doc-header-top">
+                            <div class="doc-logo">
+                                <img src="logo.png" alt="Ventura Experience Logo" class="logo-doc-img">
+                                <span id="doc-logo-icon" style="display: none;"></span>
+                            </div>
+                            <div class="doc-meta">
+                                <div class="doc-id">Nº REGISTRO: <strong id="doc-output-id">0042</strong></div>
+                                <div class="doc-date">EMISSÃO: <span id="doc-output-emissao">11/06/2026</span></div>
+                            </div>
+                        </div>
+                        <h1 class="doc-title" id="doc-title-main">AUTORIZAÇÃO DE SAÍDA DE VEÍCULO</h1>
+                        <p class="doc-subtitle" id="doc-title-sub">TERMO DE RESPONSABILIDADE E VISTORIA SIMPLIFICADA DE SAÍDA</p>
+                    </header>
+
+                    <!-- Doc Section: Veículo -->
+                    <section class="doc-section-block">
+                        <h3 class="doc-section-header">1. DADOS DO VEÍCULO</h3>
+                        <div class="doc-grid doc-grid-3">
+                            <div class="doc-cell">
+                                <span class="doc-label">TIPO DE VEÍCULO:</span>
+                                <span id="doc-out-tipo" class="doc-value">Barco / Lancha</span>
+                            </div>
+                            <div class="doc-cell col-span-2">
+                                <span class="doc-label">MODELO / MARCA:</span>
+                                <span id="doc-out-modelo" class="doc-value">-</span>
+                            </div>
+                        </div>
+                        <div class="doc-grid doc-grid-3">
+                            <div class="doc-cell">
+                                <span id="doc-lbl-out-identificacao" class="doc-label">INSCRIÇÃO / REGISTRO:</span>
+                                <span id="doc-out-identificacao" class="doc-value">-</span>
+                            </div>
+                            <div class="doc-cell">
+                                <span id="doc-lbl-out-uso" class="doc-label">HORÍMETRO:</span>
+                                <span id="doc-out-uso" class="doc-value">- hrs</span>
+                            </div>
+                            <div class="doc-cell">
+                                <span class="doc-label">NÍVEL DE COMBUSTÍVEL:</span>
+                                <div class="doc-fuel-indicator">
+                                    <div class="doc-fuel-bar"><div id="doc-out-combustivel-fill" style="width: 50%;"></div></div>
+                                    <span id="doc-out-combustivel-text" class="doc-value">50%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="doc-grid doc-grid-2">
+                            <div class="doc-cell">
+                                <span class="doc-label">ESTADO GERAL DE VISTORIA:</span>
+                                <span id="doc-out-estado" class="doc-value">Excelente</span>
+                            </div>
+                            <div class="doc-cell">
+                                <span class="doc-label">OBSERVAÇÕES DE AVARIAS:</span>
+                                <span id="doc-out-avarias" class="doc-value">Nenhuma avaria observada.</span>
+                            </div>
+                        </div>
+                        <div class="doc-checklist-box">
+                            <span class="doc-label" id="doc-lbl-out-acessorios-title">ITENS CONFERIDOS NA SAÍDA:</span>
+                            <div class="doc-checklist" id="doc-out-acessorios">
+                                <span class="doc-check-tag checked"><i class="fa-regular fa-square-check"></i> Chave</span>
+                                <span class="doc-check-tag checked"><i class="fa-regular fa-square-check"></i> Coletes Salva-vidas</span>
+                                <span class="doc-check-tag checked"><i class="fa-regular fa-square-check"></i> Documentos</span>
+                                <span class="doc-check-tag"><i class="fa-regular fa-square"></i> Equipamentos Segurança</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Doc Section: Responsável -->
+                    <section class="doc-section-block">
+                        <h3 class="doc-section-header">2. DADOS DO RESPONSÁVEL</h3>
+                        <div class="doc-grid doc-grid-2">
+                            <div class="doc-cell">
+                                <span class="doc-label">NOME DO RESPONSÁVEL:</span>
+                                <span id="doc-out-condutor-nome" class="doc-value">-</span>
+                            </div>
+                            <div class="doc-cell">
+                                <span class="doc-label">CARGO:</span>
+                                <span id="doc-out-condutor-vinculo" class="doc-value">-</span>
+                            </div>
+                        </div>
+                        <div class="doc-grid doc-grid-2">
+                            <div class="doc-cell">
+                                <span class="doc-label">DOCUMENTO DE IDENTIFICAÇÃO (CPF/RG):</span>
+                                <span id="doc-out-condutor-doc" class="doc-value">-</span>
+                            </div>
+                            <div class="doc-cell">
+                                <span class="doc-label">TELEFONE DE CONTATO:</span>
+                                <span id="doc-out-condutor-tel" class="doc-value">-</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Doc Section: Saída e Retorno -->
+                    <section class="doc-section-block">
+                        <h3 class="doc-section-header" id="doc-sec-3-title">3. DADOS DE DESTINAÇÃO E CRONOGRAMA</h3>
+                        <div class="doc-grid doc-grid-2">
+                            <div class="doc-cell">
+                                <span class="doc-label" id="doc-lbl-out-motivo">MOTIVO DA SAÍDA:</span>
+                                <span id="doc-out-motivo" class="doc-value">Test Drive / Demonstração</span>
+                            </div>
+                            <div class="doc-cell">
+                                <span class="doc-label" id="doc-lbl-out-destino">DESTINO PREVISTO:</span>
+                                <span id="doc-out-destino" class="doc-value">-</span>
+                            </div>
+                        </div>
+                        <div class="doc-grid doc-grid-2">
+                            <div class="doc-cell">
+                                <span class="doc-label" id="doc-lbl-out-data-saida">DATA E HORÁRIO DE SAÍDA:</span>
+                                <span id="doc-out-data-saida" class="doc-value">-</span>
+                            </div>
+                            <div class="doc-cell">
+                                <span class="doc-label" id="doc-lbl-out-data-retorno">PREVISÃO DE RETORNO:</span>
+                                <span id="doc-out-data-retorno" class="doc-value">-</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Doc Section: Termo de responsabilidade -->
+                    <section class="doc-section-block">
+                        <h3 class="doc-section-header" id="doc-sec-4-title">4. TERMO DE COMPROMISSO E RESPONSABILIDADE</h3>
+                        <p class="doc-terms" id="doc-out-terms">
+                            Declaro, na qualidade de condutor e responsável, que recebi o veículo acima descrito em perfeitas condições de funcionamento e conservação. Comprometo-me a zelar por sua guarda e integridade durante todo o período em que estiver sob minha posse. Estou ciente e assumo total responsabilidade civil, administrativa e criminal por quaisquer danos causados ao veículo, a terceiros ou decorrentes de infrações de trânsito/navegação cometidas no período indicado nesta autorização. Comprometo-me a retornar com o veículo na data e horário previstos acima.
+                        </p>
+                    </section>
+
+                    <!-- Doc Section: Assinaturas -->
+                    <footer class="doc-signatures-section">
+                        <!-- Assinatura 1: Responsável -->
+                        <div class="doc-sig-block">
+                            <div class="doc-sig-line"></div>
+                            <div class="doc-sig-name" id="doc-out-condutor-nome-sig">RESPONSÁVEL</div>
+                            <div class="doc-sig-sub" id="doc-out-condutor-doc-sig">CPF/RG: -</div>
+                        </div>
+                        <!-- Assinatura 2: Gerente -->
+                        <div class="doc-sig-block">
+                            <div class="doc-sig-pad-image-wrapper">
+                                <img id="doc-out-signature-img" src="" alt="Assinatura Digital" style="display: none;">
+                                <div class="doc-sig-line" id="doc-sig-line-auth"></div>
+                            </div>
+                            <div class="doc-sig-name" id="doc-out-autorizador-sig">GERENTE / AUTORIZADOR</div>
+                            <div class="doc-sig-sub">ASSINATURA DO GERENTE</div>
+                        </div>
+                        <!-- Assinatura 3: Terceira Pessoa -->
+                        <div class="doc-sig-block">
+                            <div class="doc-sig-line"></div>
+                            <div class="doc-sig-name" id="doc-out-terceiro-nome">TESTEMUNHA / OUTRO</div>
+                            <div class="doc-sig-sub" id="doc-out-terceiro-cargo">ASSINATURA ADICIONAL</div>
+                        </div>
+                    </footer>
+
+
+                </article>
+            </div>
+        </main>
+    </div>
+
+    <!-- Script for Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
