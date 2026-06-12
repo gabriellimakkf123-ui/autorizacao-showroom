@@ -116,15 +116,15 @@ body {
 }
 
 .sidebar-logo {
-    max-height: 52px;
+    max-height: 62px;
     width: auto;
     object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.05));
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.06));
     transition: var(--transition);
 }
 
 [data-theme="dark"] .sidebar-logo {
-    filter: brightness(0) invert(1) drop-shadow(0 2px 6px rgba(255, 255, 255, 0.1));
+    filter: invert(1) drop-shadow(0 4px 10px rgba(255, 255, 255, 0.15));
 }
 
 /* Seletor de Tipo de Documento */
