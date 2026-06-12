@@ -639,6 +639,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================================================
+    // NAVEGAÇÃO MOBILE (FORMULÁRIO VS PREVIEW)
+    // ==========================================================================
+    const mobileBtnForm = document.getElementById('mobile-btn-form');
+    const mobileBtnPreview = document.getElementById('mobile-btn-preview');
+    const appContainer = document.querySelector('.app-container');
+
+    if (mobileBtnForm && mobileBtnPreview && appContainer) {
+        mobileBtnForm.addEventListener('click', () => {
+            mobileBtnForm.classList.add('active');
+            mobileBtnPreview.classList.remove('active');
+            appContainer.classList.remove('show-preview');
+        });
+
+        mobileBtnPreview.addEventListener('click', () => {
+            mobileBtnPreview.classList.add('active');
+            mobileBtnForm.classList.remove('active');
+            appContainer.classList.add('show-preview');
+        });
+    }
+
+    // ==========================================================================
     // STARTUP
     // ==========================================================================
     initTheme();
