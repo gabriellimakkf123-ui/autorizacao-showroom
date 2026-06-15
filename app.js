@@ -1,5 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================================
+    // CONFIGURAÇÃO DO SUPABASE (BANCO DE DADOS NA NUVEM)
+    // Substitua 'SEU_SUPABASE_URL' e 'SUA_SUPABASE_KEY' pelas credenciais do seu projeto Supabase
+    // ==========================================================================
+    const SUPABASE_URL = 'https://vpbrvtzjunmhfcmrfjtm.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_q98-0SB2qgpoXey5dsti0g_2r-crMP0';
+    
+    let supabaseClient = null;
+    if (SUPABASE_URL && SUPABASE_URL !== 'SEU_SUPABASE_URL' && SUPABASE_KEY && SUPABASE_KEY !== 'SUA_SUPABASE_KEY') {
+        try {
+            supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            console.log("Supabase inicializado com sucesso!");
+        } catch (err) {
+            console.error("Falha ao inicializar o cliente do Supabase:", err);
+        }
+    }
+
+    // ==========================================================================
     // DOM ELEMENTS - FORM & INTERFACE
     // ==========================================================================
     const form = document.getElementById('form-autorizacao');
@@ -453,8 +470,120 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================================================
-    // HISTORY STORAGE (SALVAR, CARREGAR, EXCLUIR)
+    // HISTORY STORAGE (SALVAR, CARREGAR, EXCLUIR) - INTEGRADO COM SUPABASE
     // ==========================================================================
+    async function saveToSupabase(record) {
+        if (!supabaseClient) return;
+        try {
+            const dbRecord = {
+                id: record.id,
+                date_created: record.dateCreated,
+                doc_type: record.docType,
+                tipo_veiculo: record.tipoVeiculo,
+                modelo: record.modelo,
+                identificacao: record.identificacao,
+                uso: record.uso,
+                combustivel: record.combustivel,
+                estado: record.estado,
+                avarias: record.avarias,
+                acessorios: record.acessorios,
+                condutor_nome: record.condutorNome,
+                condutor_doc: record.condutorDoc,
+                condutor_tel: record.condutorTel,
+                condutor_vinculo: record.condutorVinculo,
+                motivo: record.motivo,
+                destino: record.destino,
+                data_saida: record.dataSaida,
+                data_retorno: record.dataRetorno,
+                autorizador: record.autorizador,
+                terceiro_nome: record.terceiroNome,
+                terceiro_cargo: record.terceiroCargo,
+                signature_data: record.signatureData
+            };
+            const { error } = await supabaseClient
+                .from('autorizacoes')
+                .upsert([dbRecord]);
+            
+            if (error) {
+                console.error("Erro ao salvar no Supabase:", error);
+            } else {
+                console.log("Salvo com sucesso no Supabase!");
+                fetchAndRenderHistory();
+            }
+        } catch (err) {
+            console.error("Erro na requisição do Supabase:", err);
+        }
+    }
+
+    async function fetchAndRenderHistory() {
+        if (supabaseClient) {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('autorizacoes')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(10);
+                
+                if (error) {
+                    console.error("Erro ao buscar dados do Supabase:", error);
+                    renderHistory();
+                } else if (data) {
+                    history = data.map(dbRecord => ({
+                        id: dbRecord.id,
+                        dateCreated: dbRecord.date_created,
+                        docType: dbRecord.doc_type,
+                        tipoVeiculo: dbRecord.tipo_veiculo,
+                        modelo: dbRecord.modelo,
+                        identificacao: dbRecord.identificacao,
+                        uso: dbRecord.uso,
+                        combustivel: dbRecord.combustivel,
+                        estado: dbRecord.estado,
+                        avarias: dbRecord.avarias,
+                        acessorios: dbRecord.acessorios || [],
+                        condutorNome: dbRecord.condutor_nome,
+                        condutorDoc: dbRecord.condutor_doc,
+                        condutorTel: dbRecord.condutor_tel,
+                        condutorVinculo: dbRecord.condutor_vinculo,
+                        motivo: dbRecord.motivo,
+                        destino: dbRecord.destino,
+                        dataSaida: dbRecord.data_saida,
+                        dataRetorno: dbRecord.data_retorno,
+                        autorizador: dbRecord.autorizador,
+                        terceiroNome: dbRecord.terceiro_nome || '',
+                        terceiroCargo: dbRecord.terceiro_cargo || '',
+                        signatureData: dbRecord.signature_data
+                    }));
+                    localStorage.setItem('showroom_autorizacoes', JSON.stringify(history));
+                    renderHistory();
+                }
+            } catch (err) {
+                console.error("Falha ao consultar banco de dados:", err);
+                renderHistory();
+            }
+        } else {
+            renderHistory();
+        }
+    }
+
+    async function deleteFromSupabase(id) {
+        if (!supabaseClient) return;
+        try {
+            const { error } = await supabaseClient
+                .from('autorizacoes')
+                .delete()
+                .eq('id', id);
+            
+            if (error) {
+                console.error("Erro ao excluir do Supabase:", error);
+            } else {
+                console.log("Excluído com sucesso do Supabase!");
+                fetchAndRenderHistory();
+            }
+        } catch (err) {
+            console.error("Falha ao excluir no banco de dados:", err);
+        }
+    }
+
     function saveToHistory() {
         const accessories = [];
         form.querySelectorAll('input[name="acessorio"]:checked').forEach(chk => {
@@ -500,7 +629,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         localStorage.setItem('showroom_autorizacoes', JSON.stringify(history));
-        renderHistory();
+        
+        if (supabaseClient) {
+            saveToSupabase(record);
+        } else {
+            renderHistory();
+        }
     }
 
     function renderHistory() {
@@ -664,5 +798,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================================
     initTheme();
     resetForm();
-    renderHistory();
+    fetchAndRenderHistory();
 });
