@@ -6,13 +6,50 @@ document.addEventListener('DOMContentLoaded', () => {
     const SUPABASE_URL = 'https://vpbrvtzjunmhfcmrfjtm.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_q98-0SB2qgpoXey5dsti0g_2r-crMP0';
     
+    // Sistema de Alerta Visual na Tela para Diagnósticos
+    function showNotification(message, type = 'error') {
+        const toast = document.createElement('div');
+        toast.className = 'no-print';
+        toast.style.position = 'fixed';
+        toast.style.top = '20px';
+        toast.style.right = '20px';
+        toast.style.padding = '12px 20px';
+        toast.style.borderRadius = '8px';
+        toast.style.color = '#ffffff';
+        toast.style.backgroundColor = type === 'error' ? '#ef4444' : '#059669';
+        toast.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
+        toast.style.zIndex = '99999';
+        toast.style.fontFamily = 'Inter, sans-serif';
+        toast.style.fontSize = '0.88rem';
+        toast.style.fontWeight = '600';
+        toast.style.display = 'flex';
+        toast.style.alignItems = 'center';
+        toast.style.gap = '8px';
+        
+        const icon = type === 'error' ? '<i class="fa-solid fa-triangle-exclamation"></i>' : '<i class="fa-solid fa-circle-check"></i>';
+        toast.innerHTML = `${icon} <span>${message}</span>`;
+        
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => toast.remove(), 500);
+        }, 6000);
+    }
+
     let supabaseClient = null;
     if (SUPABASE_URL && SUPABASE_URL !== 'SEU_SUPABASE_URL' && SUPABASE_KEY && SUPABASE_KEY !== 'SUA_SUPABASE_KEY') {
         try {
+            if (typeof supabase === 'undefined') {
+                throw new Error("Biblioteca Supabase JS SDK não foi carregada pelo index.html. Recarregue a página.");
+            }
             supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             console.log("Supabase inicializado com sucesso!");
         } catch (err) {
             console.error("Falha ao inicializar o cliente do Supabase:", err);
+            setTimeout(() => {
+                showNotification("Erro de conexão: " + err.message);
+            }, 1000);
         }
     }
 
@@ -506,12 +543,15 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (error) {
                 console.error("Erro ao salvar no Supabase:", error);
+                showNotification("Erro ao salvar no banco: " + error.message);
             } else {
                 console.log("Salvo com sucesso no Supabase!");
+                showNotification("Documento salvo na nuvem com sucesso!", "success");
                 fetchAndRenderHistory();
             }
         } catch (err) {
             console.error("Erro na requisição do Supabase:", err);
+            showNotification("Erro de conexão na nuvem: " + err.message);
         }
     }
 
@@ -526,6 +566,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (error) {
                     console.error("Erro ao buscar dados do Supabase:", error);
+                    showNotification("Erro ao buscar histórico: " + error.message);
                     renderHistory();
                 } else if (data) {
                     history = data.map(dbRecord => ({
@@ -558,6 +599,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (err) {
                 console.error("Falha ao consultar banco de dados:", err);
+                showNotification("Erro de conexão com o banco de dados: " + err.message);
                 renderHistory();
             }
         } else {
@@ -575,12 +617,15 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (error) {
                 console.error("Erro ao excluir do Supabase:", error);
+                showNotification("Erro ao excluir registro: " + error.message);
             } else {
                 console.log("Excluído com sucesso do Supabase!");
+                showNotification("Documento excluído da nuvem!", "success");
                 fetchAndRenderHistory();
             }
         } catch (err) {
             console.error("Falha ao excluir no banco de dados:", err);
+            showNotification("Erro ao excluir no banco de dados: " + err.message);
         }
     }
 
